@@ -3,6 +3,7 @@ package com.coding404.myweb.controller;
 import com.coding404.myweb.command.ProductVO;
 import com.coding404.myweb.product.ProductService;
 import com.coding404.myweb.util.Criteria;
+import com.coding404.myweb.util.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,18 +27,43 @@ public class ProductController {
 
 
     //목록
+//    @GetMapping("/productList")
+//    public String productList(Model model, Criteria cri) {
+//
+//        //현재 로그인되어 있는 사람 아이디가 admin이라고 가정하고
+//        String userId = "admin";
+//
+//        ArrayList<ProductVO> list = productService.getList(userId, cri);
+//        model.addAttribute("list", list);
+//
+//        //페이지VO
+//        int total = productService.getTotal(userId); //전체게시글 수
+//        PageVO pageVO = new PageVO(cri, total ); //페이지네이션
+//        model.addAttribute("pageVO", pageVO);
+//
+//        return "product/productList";
+//    }
+
+    //step1. criteria같은 객체에 검색 키워드를 추가
+    //step2. 목록sql, 전체게시글sql 동적쿼리로 변경
+    //step3. 화면에서 사용자가 검색버튼을 누를때, 다시 page번호를 1번으로, amount를 유지
+    //step4. 검색값의 유지 (criteria안에 있음)
+    //step5. 페이지네이션을 누를때, 검색 키워드를 같이 넘겨주어야 함
     @GetMapping("/productList")
     public String productList(Model model, Criteria cri) {
 
         //현재 로그인되어 있는 사람 아이디가 admin이라고 가정하고
         String userId = "admin";
-
         ArrayList<ProductVO> list = productService.getList(userId, cri);
         model.addAttribute("list", list);
-
+        //페이지VO
+        int total = productService.getTotal(userId, cri); //전체게시글 수
+        PageVO pageVO = new PageVO(cri, total ); //페이지네이션
+        model.addAttribute("pageVO", pageVO);
 
         return "product/productList";
     }
+
 
     //등록
     @GetMapping("/productReg")

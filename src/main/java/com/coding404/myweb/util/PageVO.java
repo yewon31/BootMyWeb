@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
 @Data //getter, setter
 public class PageVO {
 
+    private int pageSize = 5;   //페이지네이션 크기
+
     private Criteria cri;
     private int page;           //현재조회하는 페이지번호 <-- cri
     private int amount;         //현재조회하는 데이터개수 <-- cri
@@ -35,13 +37,13 @@ public class PageVO {
         this.total = total;
 
         //끝페이지 번호 계산(1~10번 페이지 조회시 -> 10)
-        this.end = (int) Math.ceil(this.page / 10.0) * 10;
+        this.end = (int) Math.ceil(this.page / (double)this.pageSize) * this.pageSize;
         //실제 끝번호 재 계산(총 게시물 개수가 53개 -> 실제끝번호 6, end페이지 10)
         this.realEnd = (int) Math.ceil(this.total / (double) this.amount);
         //end 재 계산(112개 게시물 -> 11~20페이지번호를 볼때는, end=20, realEnd=12)
         if (end > realEnd) this.end = this.realEnd;
         //시작페이지 번호 계산
-        this.start = end - 10 + 1;
+        this.start = end - this.pageSize + 1;
 
         //이전버튼 활성화 여부
         this.prev = this.start > 1;
