@@ -44,6 +44,7 @@ public class PageVO {
         if (end > realEnd) this.end = this.realEnd;
         //시작페이지 번호 계산
         this.start = end - this.pageSize + 1;
+        if (start < 1) start = 1;
 
         //이전버튼 활성화 여부
         this.prev = this.start > 1;

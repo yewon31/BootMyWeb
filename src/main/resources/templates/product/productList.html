@@ -112,7 +112,7 @@
                                                         자바 Date타입이면 #dates내장객체,
                                                         자바 LocalDate타입이면 #temporals내장객체
                                                     -->
-                                                    <td>[[${ #temporals.format(vo.prodRegdate, 'yy년MM월dd일 HH시mm분ss초')  }]]</td>
+                                                    <td>[[${ #temporals.format(vo.prodRegdate, 'yy년MM월dd일 HH시mm분ss초') }]]</td>
                                                     <td>[[${vo.prodPrice}]]원</td>
                                                     <td>[[${vo.prodCount}]]개</td>
                                                     <td>[[${vo.prodDiscount}]]%</td>
@@ -126,7 +126,7 @@
 
                                             <!-- 페이지네이션 -->
                                             <div class="page">
-                                                <th:block th:replace="~{./include/page :: page( ${pageVO} ) }"></th:block>
+                                                <th:block th:replace="~{./include/page :: page( ${pageVO}, 'productList' ) }"></th:block>
                                             </div>
                                         </li>
 

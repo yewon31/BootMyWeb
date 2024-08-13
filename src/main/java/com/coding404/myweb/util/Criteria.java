@@ -15,6 +15,9 @@ public class Criteria {
     private String startDate; //판매가 시작일
     private String endDate; //판매가 종료일
     //.........
+    private String searchTitle;
+    private String searchId;
+    private String listType;
 
 
     public Criteria() {

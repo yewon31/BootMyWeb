@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/baseLayout :: setContent( ~{ ::.wrap } ) }">
+    <div class="wrap">
+        <div class="warp_inner">
+
+            <!-- left_menu end -->
+            <div class="right_content">
+
+                <div class="midiaq">
+                    <div class="mainWrapper">
+                        <!--
+                        <div class="ipssGiudeBlock" style="color:red; font-size: large;">
+                            -요구사항<br>
+                            -내가 작성한 글만 볼 수 있습니다. (where id = 'admin')<br>
+                            -수정/삭제 클릭시 수정/삭제 화면으로 넘어갑니다<br>
+                        </div>
+                        <div class="ipssGiudeBlock" style="color:red; font-size: large;">
+                            -요구사항<br>
+                            -판매자들이 소통하는 글에 대한 CRUD작업을 연습합니다.<br>
+                            -모든 판매자가 작성한 글이 보여집니다.<br>
+                            -제목, 닉네임 으로 검색이 가능합니다.<br>
+                            -내용 클릭시 상세보기로 넘어 갑니다.<br>
+                        </div>-->
+                    </div>
+                    <form name="searchForm" action="topicList" method="get">
+
+                        <!-- 검색을 한다는 것은 다시 1번 페이지로-->
+                        <input type="hidden" name="page" value="1">
+                        <input type="hidden" name="amount" th:value="${pageVO.amount}">
+                        <input type="hidden" name="listType" th:value="${pageVO.cri.listType}">
+
+                        <!-- listAll -->
+                        <th:block th:if="${pageVO.cri.listType == 'all'}">
+                            <div class="page_title">관리자검색</div>
+                            <div class="search_block flfull">
+
+                                <div class="fl">
+                                    <div>
+                                        <span class="search_th">제목 검색</span>
+                                        <input type="text" class="searchTitle" th:value="${pageVO.cri.searchTitle}" placeholder="제목 검색">
+                                    </div>
+
+                                    <div>
+                                        <span class="search_th">아이디 검색</span>
+                                        <input type="text" class="searchId" th:value="${pageVO.cri.searchId}" placeholder="아이디 검색">
+                                        <!-- 아이디 -> 닉네임 -->
+                                    </div>
+                                </div>
+
+                                <div class="fr">
+                                    <div class="search_btn_area">
+                                        <a href="#" class="normal_btn purplebtn" id="searchBtn">검색</a>
+                                        <a href="#" class="normal_btn purplebtn02" onclick="location.href='topicReg';">등록</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </th:block>
+
+                        <div class="full_collum collum">
+                            <ul>
+                                <li class="collum_tit">
+                                    <h2><span th:text="${pageVO.cri.listType == 'all' ? '판매자 소통공간' : '내글 목록'}"></span></h2>
+
+                                    <select class="" id="changeAmount">
+                                        <option value="10" th:selected="${pageVO.cri.amount == 10}">10개 보기</option>
+                                        <option value="20" th:selected="${pageVO.cri.amount == 20}">20개 보기</option>
+                                        <option value="40" th:selected="${pageVO.cri.amount == 40}">40개 보기</option>
+                                        <option value="80" th:selected="${pageVO.cri.amount == 80}">80개 보기</option>
+                                    </select>
+                                    <span class="showtoggle minus"></span>
+                                    <ul>
+                                        <li>
+                                            <table cellpadding="0" cellspacing="0" class="row_tb_7" width="100%;">
+                                                <tr>
+                                                    <th>순서</th>
+                                                    <th>아이디</th>
+                                                    <th>제목</th>
+                                                    <th>내용</th>
+                                                    <th>등록일</th>
+                                                    <th:block th:if="${pageVO.cri.listType == 'me'}">
+                                                        <th>수정/삭제</th>
+                                                    </th:block>
+                                                </tr>
+
+                                                <tr th:each="vo, status : ${list}">
+                                                    <td>[[${status.count}]]</td>
+                                                    <td>[[${vo.topicWriter}]]</td>
+                                                    <td>[[${vo.topicTitle}]]</td>
+                                                    <td>
+                                                        <a title="상세보기(클릭)" th:href="@{/topic/topicDetail(topicId=${vo.topicId }) }">[[${vo.topicContent}]]</a>
+                                                    </td>
+                                                    <td>[[${ #temporals.format(vo.topicRegdate, 'yyyy-MM-dd') }]]</td>
+                                                    <th:block th:if="${pageVO.cri.listType == 'me'}">
+                                                        <td>
+                                                            <a title="상세보기(클릭)" th:href="@{/topic/topicModify(topicId=${vo.topicId }) }">수정</a>
+                                                            /
+                                                            <a title="상세보기(클릭)" th:href="@{/topic/topicModify(topicId=${vo.topicId }) }">삭제</a>
+                                                        </td>
+                                                    </th:block>
+                                                </tr>
+
+                                            </table>
+
+                                            <!-- 페이지네이션 -->
+                                            <div class="page">
+                                                <th:block th:replace="~{./include/page :: page( ${pageVO}, 'topicList' ) }"></th:block>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+
+<!--이페이지에서 사용할 js는 block구문 밖에 선언-->
+<script th:inline="javascript">
+    var msg = '[[${msg}]]';
+
+    if(msg != 'null') { //msg가 null 이 아니라는 것은 msg값이 있다는 뜻
+        var m = JSON.parse(msg);
+        alert(m);
+
+    }
+
+    //검색버튼 submit기능
+    var searchBtn = document.getElementById("searchBtn");
+    searchBtn.onclick = function() {
+        event.preventDefault(); //a링크 이벤트 중단
+        document.searchForm.submit(); //폼태그 서브밋
+    }
+
+    //100개씩 보기
+    var changeAmount = document.getElementById("changeAmount");
+    changeAmount.onchange = function() {
+        //사용자가 선택한 값을 받아서, form태그의 amount값을 변경하고, 폼을 서브밋
+        //console.log(changeAmount);
+        //console.log(this);
+        //console.log(event.target);
+        var amount = event.target.value;
+        document.searchForm.page.value = 1;
+        document.searchForm.amount.value = amount; //document.폼이름.인풋이름.값 = 사용자의 선택값
+        document.searchForm.submit();
+    }
+</script>
+</html>
