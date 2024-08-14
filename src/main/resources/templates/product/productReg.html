@@ -8,7 +8,7 @@
                 <div class="midiaq">
                     <div class="page_title">상품 관리 > 상품 등록</div>
 
-                    <form name="productForm" action="registForm" method="post">
+                    <form name="productForm" action="registForm" method="post" enctype="multipart/form-data">
                         <div class="full_collum collum">
                             <ul>
                                 <li class="collum_tit">
@@ -28,13 +28,13 @@
 
                                                 <tr>
                                                     <th>카테고리</th>
-                                                    <td colspan="5" >
+                                                    <td colspan="5">
 
                                                         <input type="hidden" name="prodCategory" value="">
 
                                                         <div class="loading" style="display: none;">
-                                                            <div class="loader" ></div>
-                                                            <div class="loading-overlay" ></div>
+                                                            <div class="loader"></div>
+                                                            <div class="loading-overlay"></div>
                                                         </div>
 
                                                         <div style="color:red">상품등록 완료 후에는 수정이 불가능하니 신중히 선택해주세요.</div>
@@ -126,7 +126,7 @@
                                                                 <span>메인이미지</span>
                                                                 <label class="upload-display" for="main_file">
                                                                     <span class="upload-thumb-wrap">
-                                                                        <img class="upload-thumb" src="../img/plus_btn.png" >
+                                                                        <img class="upload-thumb" src="../img/plus_btn.png">
                                                                     </span>
                                                                 </label>
                                                                 <input class="upload-name" value="파일선택" disabled="disabled">
@@ -188,7 +188,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>할인율</th>
-                                                    <td colspan="3"><input type="text" class="inputw150" name="prodDiscount" value=""  placeholder="15(숫자로 입력)" required pattern="\d*">%</td>
+                                                    <td colspan="3"><input type="text" class="inputw150" name="prodDiscount" value="" placeholder="15(숫자로 입력)" required pattern="\d*">%</td>
                                                 </tr>
 
                                                 <tr>
@@ -197,13 +197,13 @@
                                                         <div class="uInputRadioBox">
                                                             <div class="uInputRadio">
                                                                 <label>
-                                                                    <input type="radio"  name="prodPurchaseYn" value="N" checked="checked">
+                                                                    <input type="radio" name="prodPurchaseYn" value="N" checked="checked">
                                                                     <span class="text">제한안함</span>
                                                                 </label>
                                                             </div>
                                                             <div class="uInputRadio">
                                                                 <label>
-                                                                    <input type="radio" name="prodPurchaseYn" value="Y" >
+                                                                    <input type="radio" name="prodPurchaseYn" value="Y">
                                                                     <span class="text">1회 제한</span>
                                                                 </label>
                                                             </div>
@@ -216,7 +216,7 @@
                                                     <th>설명</th>
                                                     <td colspan="5">
 
-                                                        <div><textarea  class="inputw99p" name="prodContent" style="height: 200px;"></textarea>
+                                                        <div><textarea class="inputw99p" name="prodContent" style="height: 200px;"></textarea>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -268,8 +268,6 @@
 </th:block>
 
 
-
-
 <!-- 화면이 로드된 이후에 restAPI에서 데이터를 가지고 옴-->
 <script>
     $(document).ready(function() {
@@ -297,8 +295,6 @@
 
     })
 </script>
-
-
 
 
 </html>

@@ -26,12 +26,13 @@ public class AjaxController {
         ArrayList<CategoryVO> list = productService.getCategory();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
     //2단, 3단 카테고리
     @GetMapping("/getCategoryChild/{groupId}/{categoryLv}/{categoryDetailLv}")
     public ResponseEntity<List<CategoryVO>> getCategoryChild(
-                     @PathVariable("groupId") String groupId,
-                     @PathVariable("categoryLv") int categoryLv,
-                     @PathVariable("categoryDetailLv") int categoryDetailLv) {
+            @PathVariable("groupId") String groupId,
+            @PathVariable("categoryLv") int categoryLv,
+            @PathVariable("categoryDetailLv") int categoryDetailLv) {
         CategoryVO vo = CategoryVO.builder()
                 .groupId(groupId)
                 .categoryLv(categoryLv)
@@ -41,12 +42,5 @@ public class AjaxController {
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
-
-
-
-
-
-
 
 }

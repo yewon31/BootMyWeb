@@ -12,19 +12,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
-
     @Autowired
     @Qualifier("productService") //이름으로연결
     private ProductService productService;
-
 
     //목록
 //    @GetMapping("/productList")
@@ -49,6 +50,7 @@ public class ProductController {
     //step3. 화면에서 사용자가 검색버튼을 누를때, 다시 page번호를 1번으로, amount를 유지
     //step4. 검색값의 유지 (criteria안에 있음)
     //step5. 페이지네이션을 누를때, 검색 키워드를 같이 넘겨주어야 함
+    //step6. 100씩 보기버튼 처리
     @GetMapping("/productList")
     public String productList(Model model, Criteria cri) {
 
@@ -58,12 +60,11 @@ public class ProductController {
         model.addAttribute("list", list);
         //페이지VO
         int total = productService.getTotal(userId, cri); //전체게시글 수
-        PageVO pageVO = new PageVO(cri, total ); //페이지네이션
+        PageVO pageVO = new PageVO(cri, total); //페이지네이션
         model.addAttribute("pageVO", pageVO);
 
         return "product/productList";
     }
-
 
     //등록
     @GetMapping("/productReg")
@@ -85,18 +86,27 @@ public class ProductController {
     //등록요청
     @PostMapping("/registForm")
     public String registForm(ProductVO vo,
-                             RedirectAttributes ra ) {
+                             @RequestParam("file") List<MultipartFile> files, //파일업로드
+                             RedirectAttributes ra) {
+
+        //파일이 빈데이터로 넘어오는 것을 제거
+        files = files.stream().filter(file -> file.isEmpty() == false).collect(Collectors.toList());
+        //확장자 검사
+        for (MultipartFile f : files) {
+            String contentType = f.getContentType(); //파일의 컨텐츠 타입을 얻음
+            if (contentType.contains("image") == false) {
+                ra.addFlashAttribute("msg", "png, jpg, jpeg 형식만 등록가능합니다");
+                return "redirect:/product/productList";
+            }
+        }
 
         //서버측에서 유효성 검사 진행가능
-
-        int result = productService.productInsert(vo);
-
-        if(result == 1) {
+        int result = productService.productInsert(vo, files);
+        if (result == 1) {
             ra.addFlashAttribute("msg", "정상 등록되었습니다");
         } else {
             ra.addFlashAttribute("msg", "등록에 실패했습니다. 1577-1577 문의해 주세요.");
         }
-
 
         return "redirect:/product/productList"; //다시 목록을 태워서 나감(데이터를 들고)
     }
@@ -108,12 +118,11 @@ public class ProductController {
 
         //업데이트
         int result = productService.productUpdate(vo);
-        if(result == 1) {
+        if (result == 1) {
             ra.addFlashAttribute("msg", "수정 되었습니다");
         } else {
             ra.addFlashAttribute("msg", "수정에 실패했습니다");
         }
-
 
         return "redirect:/product/productDetail?prodId=" + vo.getProdId(); //상세화면은 id값을 필요로 함
     }
@@ -126,6 +135,5 @@ public class ProductController {
 
         return "redirect:/product/productList";
     }
-
 
 }
