@@ -5,22 +5,23 @@
     <head>
         <title>연습용</title>
 
-        <meta charset="UTF-8"/>
-        <meta charset="EUC-KR"/>
+        <meta charset="UTF-8" />
+        <meta charset="EUC-KR" />
 
         <!--공통 -->
-        <link rel="stylesheet" type="text/css" href="/css/index.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/footer.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/main.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css"/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/css/footer.css" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="/css/loading.css" />
+        <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+              integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
         <script src="/js/jquery-1.12.1.min.js"></script>
         <script src="/js/jquery-ui.min.js"></script>
         <script src="/js/style.js"></script>
 
         <!--개인 -->
-        <link rel="stylesheet" type="text/css" href="/css/modal.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/modal.css" />
     </head>
     <body>
 
@@ -28,38 +29,36 @@
             <div class="header">
                 <h3 style="color: #fff; position: absolute; left: 20px; top: 27px;">coding404 - 연습용 입니다. 이에 대한 무단 복제 및 배포를 원칙적으로 금합니다.
                     원본파일 및 핸드폰 촬영, 동영상강좌 녹화를 통한 무단 복제 · 배포하는 경우 저작권법 제136조에 의한 저작재산권 침해 죄에 해당될 수 있으니 각별한 주의 바랍니다.</h3>
-                <span class="admin_id"><b style="color:#7866c9;">관리자</b>홍길동 님</span>
+                <span class="admin_id"><b style="color:#7866c9;">관리자</b>[[${session.userVO.id}]] 님</span>
             </div>
-        </header>
 
+        </header>
         <!-- 좌측 사이드바 -->
         <aside>
             <span class="menuBtn">버튼</span>
             <ul class="sidenav">
                 <li class="sub_menu_toggle">
-                    <a href="#">- 상품관리(예제)</a>
-                    <ul class="sub_menu ">
+                    <a href="#" >- 상품관리(예제)</a>
+                    <ul class="sub_menu">
                         <li><a href="/product/productReg">-상품등록</a></li>
                         <li><a href="/product/productList">-상품조회 / 수정</a></li>
-                        <li><a href="/product/productDetail">-하단메뉴</a></li>
+                        <li><a href="#">-하단메뉴</a></li>
                     </ul>
                 </li>
                 <li class="sub_menu_toggle">
                     <a href="#">- 게시글 연습(초급)</a>
                     <ul class="sub_menu">
-                        <li><a href="/topic/topicList?listType=all">-전체 글목록</a></li>
-                        <li><a href="/topic/topicList">-내글 목록</a></li>
-                        <li><a href="/topic/topicReg">-글 등록</a></li>
-                        <!--<li><a href="/topic/topicModify">-글 수정</a></li>
-                        <li><a href="/topic/topicDetail">-글 상세</a></li>-->
+                        <li><a href="#">-전체 글목록</a></li>
+                        <li><a href="#">-글 등록</a></li>
+                        <li><a href="#">-내글 목록</a></li>
                     </ul>
                 </li>
                 <li class="sub_menu_toggle">
                     <a href="#">- 판매자 공지관리(중급)</a>
                     <ul class="sub_menu">
-                        <li><a href="/notice/noticeList">-판매자공지목록</a></li>
-                        <li><a href="/notice/noticeReg">-판매자공지등록</a></li>
-                        <li><a href="/notice/noticeDetail">-판매자공지보기</a></li>
+                        <li><a href="#">-판매자공지목록</a></li>
+                        <li><a href="#">-판매자공지등록</a></li>
+                        <li><a href="#">-판매자공지보기</a></li>
                     </ul>
                 </li>
                 <li class="sub_menu_toggle">
@@ -74,6 +73,7 @@
         </aside>
 
         <th:block th:replace="${content}"></th:block>
+
 
         <footer id="footer">
             <div class="footer_wrap">
@@ -110,7 +110,7 @@
                         <span>사업자등록번호 : 비밀</span>
                         <span>통신판매업신고번호 : 2018-성남분당B-0004</span>
                         <span>사업자정보확인</span>
-                        <br/>
+                        <br />
                         <span>문의전화 : 비밀 (평일 09:00-18:00, 유료)</span>
                         <span>이메일 : yopy0817@gmail.com</span>
                         <span>호스팅서비스사업자 : (주)AWS</span>
@@ -120,6 +120,27 @@
                 </div>
             </div>
         </footer>
+
+
+
+        <script th:inline="javascript">
+
+            //선택된 메뉴를 고정 시키려면
+            //li > a 태그에 클래스에 sub_menu_select
+            //ul는 display : block
+            //선택된 a태그는 on클래스를 넣어주면 됩니다.
+            $(function() { //제이쿼리 즉시실행 함수
+
+                var menu = JSON.parse('[[${menu}]]'); //포스트 핸들러로 URI값이 전달됩니다.
+                var target = ".sub_menu a[href='"+ menu +"']";
+
+                $(target).addClass("on"); //on추가
+                $(target).closest(".sub_menu").css("display", "block"); //ul태그에 display : block
+                $(target).closest(".sub_menu").prev().addClass("sub_menu_select");
+
+            })
+
+        </script>
 
     </body>
 </th:block>

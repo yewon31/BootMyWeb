@@ -28,13 +28,14 @@ public class ProductServiceImpl implements ProductService {
 
     //폴더 생성 함수
     public String makeFolder() {
-        String filepath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-        File file = new File(uploadPath + "/" + filepath);
-        if (file.exists() == false) {
+        String filepath = LocalDate.now().format( DateTimeFormatter.ofPattern("yyyyMM") );
+        File file = new File( uploadPath + "/" + filepath);
+        if(file.exists() == false) {
             file.mkdirs(); //폴더 생성
         }
         return filepath;
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class) //이 메서드 안에서 예외가 나면 ROLLBACK시킴
@@ -44,16 +45,16 @@ public class ProductServiceImpl implements ProductService {
         //1st - 상품 인서트
         int result = productMapper.productInsert(vo); //상품 insert
         //2nd - 파일업로드
-        for (MultipartFile file : files) {
+        for(MultipartFile file : files) {
             String originName = file.getOriginalFilename(); //파일명
-            String filename = originName.substring(originName.lastIndexOf("\\") + 1);
+            String filename = originName.substring(  originName.lastIndexOf("\\") + 1);
             String filepath = makeFolder(); //폴더명
             String uuid = UUID.randomUUID().toString();
             String savePath = uploadPath + "/" + filepath + "/" + uuid + "_" + filename; //업로드경로
 
             try {
                 File path = new File(savePath); //파일명을 포함한 경로
-                file.transferTo(path); //파일 업로드
+                file.transferTo( path ); //파일 업로드
 
                 //fileName, filePath, uuid 이 값은 디비에 저장
 
@@ -67,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
                             .filename(filename)
                             .filepath(filepath)
                             .uuid(uuid)
-                            .prodWriter(vo.getProdWriter())
+                            .prodWriter( vo.getProdWriter() )
                             .build()
             );
 
@@ -109,5 +110,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ArrayList<CategoryVO> getCategoryChild(CategoryVO vo) {
         return productMapper.getCategoryChild(vo);
+    }
+
+    @Override
+    public ArrayList<ProductUploadVO> getImgs(int prodId) {
+        return productMapper.getImgs(prodId);
     }
 }

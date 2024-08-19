@@ -26,6 +26,8 @@ public interface ProductMapper {
     public ArrayList<CategoryVO> getCategoryChild(CategoryVO vo);
     //파일 데이터 인서트
     public void uploadFile(ProductUploadVO vo);
+    //파일데이터 조회
+    public ArrayList<ProductUploadVO> getImgs(int prodId);
 
 
 }

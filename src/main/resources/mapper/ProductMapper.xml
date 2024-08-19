@@ -186,5 +186,13 @@
         )
     </insert>
 
+    <select id="getImgs" resultType="ProductUploadVO">
+        SELECT *
+        FROM PRODUCT_UPLOAD
+        WHERE PROD_ID = #{prodId}
+    </select>
+
+
+
 
 </mapper>
